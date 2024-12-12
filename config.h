@@ -27,7 +27,7 @@ static const unsigned int gappov    = 30;       /* vert outer gap between window
 static       int smartgaps          = 0;        /* 1 means no outer gap when there is only one window */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = { "scientifica:size=16", "fontawesome:size=16" };
+static const char *fonts[]          = { "scientifica:size=16", "fontawesome:size=22" };
 static const char dmenufont[]       = "scientifica:size=14";
 static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#444444";
@@ -41,7 +41,7 @@ static const char *colors[][3]      = {
 };
 
 /* tagging */
-static const char *tags[] = { "󰣇", "󰞷", "󰈹", "󰢙", "󰝚", "󰺵", "󱇣", "󰪶"};
+static const char *tags[] = { "", "", "", "", "", "", "", "" };
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -49,8 +49,14 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
-	{ "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
+	{ "discord",                 NULL,       NULL,       1 << 3,       0,            1 },
+	{ "librewolf",               NULL,       NULL,       1 << 2,       0,            1 },
+	{ "Spotify",                 NULL,       NULL,       1 << 4,       0,            1 },
+	{ "steam",    	             NULL,       NULL,       1 << 5,       0,            1 },
+	{ "Minecraft* 1.21.1",       NULL,       NULL,       1 << 5,       0,            1 },
+	{ "minecraft-launcher",      NULL,       NULL,       1 << 5,       0,            1 },
+
+
 };
 
 /* layout(s) */
@@ -97,8 +103,9 @@ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() 
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
 static const char *termcmd[]  = { "st", NULL };
 static const char *webbr[]  = { "librewolf", NULL };
-static const char *hdpa[] = { "/home/nodis/.screenlayout/1920.sh", NULL };
-static const char *hdpa2[] = { "/home/nodis/.screenlayout/1280.sh", NULL };
+static const char *hdpa[] = { "/home/nodis/.scripts/1920.sh", NULL };
+static const char *hdpa2[] = { "/home/nodis/.scripts/1280.sh", NULL };
+static const char *screencap[] = { "/home/nodis/.scripts/screencap.sh", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -109,6 +116,7 @@ static const Key keys[] = {
 	{ MODKEY,						XK_o,      spawn,          {.v = (const char*[]){ TERMINAL, "-e", "htop", NULL } } },
 	{ MODKEY|Mod1Mask,				XK_1,      spawn,          {.v = hdpa } },
 	{ MODKEY|Mod1Mask,				XK_2,      spawn,          {.v = hdpa2 } },
+	{ MODKEY, 						XK_Print,  spawn,          {.v = screencap } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
@@ -158,6 +166,7 @@ static const Key keys[] = {
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
+	{ MODKEY|ControlMask|ShiftMask, XK_q,      quit,           {1} }, 
 };
 
 /* button definitions */
